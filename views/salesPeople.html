@@ -1,0 +1,51 @@
+{% extends './layout.html' %}
+{% block content %}
+<div class='well'>
+  <form method='POST' action='/salesPeople'>
+    <div class='form-group'>
+      <input name='name' class='form-control' placeholder='name' />
+    </div>
+    <button type='submit' class='btn btn-primary'>Add Sales Person</button>
+  </form>
+</div>
+
+
+{% for person in people %}
+<div class='panel panel-default'>
+  <div class='panel-heading'>
+    {{person.name}}
+    <form style='display:inline' method='POST' action='/salesPeople/{{person.id}}?_method=DELETE'/>
+    <button class='btn btn-danger pull-right'>Delete</button>
+    </form>
+    <br clear='all' />
+  </div>
+  <div class='panel-body'>
+    <ul class='list-group'>
+      
+		{% for region in regions %}
+      	
+		  
+	  	{% if person.regions|containsZip(region) %}
+	  	<li  class='list-group-item list-group-item-success' >
+	  	{{region.zip}}
+	  	<form action='/salesPeople/{{person.id}}/{{region.id}}?&backUrl=/salesPeople&_method=DELETE' method='POST' style='display:inline'>
+			<button type='submit' class='btn btn-default pull-right'>Remove</button>
+	  		
+		{% else %}
+		<li  class='list-group-item' >
+	  	{{region.zip}}
+		<form action='/salesPeople/{{person.id}}/{{region.id}}?&backUrl=/salesPeople' method='POST' style='display:inline'>
+		<button type='submit' class='btn btn-default pull-right'> Add </button>
+		{% endif %}
+		
+		<br clear='all' />
+		</form>
+
+		</li>
+		{% endfor %}
+	</ul>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}
