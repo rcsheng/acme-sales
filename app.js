@@ -12,19 +12,18 @@ var swig = require('swig');
 swig.setDefaults({cache: false});
 
 
+// this could get messy in a larger app, possible to set these filters only on pages that need them?
 swig.setFilter('containsZip', function(regions, userRegion) {
 	//console.log('swig filter: ',regions, userRegion);
   	return (regions.find(function(region){
-	  	return (region.id === userRegion.id)
-	  		
+	  	return (region.id === userRegion.id);
 	  }) != null);
 });
 
 swig.setFilter('containsPerson', function(people, userPerson) {
 	//console.log('swig filter: ',regions, userRegion);
   	return (people.find(function(person){
-	  	return (person.id === userPerson.id)
-	  		
+	  	return (person.id === userPerson.id);
 	  }) != null);
 });
 
@@ -36,13 +35,12 @@ app.set('view engine','html');
 
 
 app.get('/',function(req,res,next){
-
 	Region.findAll()
 	.then(function(regions){
 		res.render('index',{
 			title: 'Home Page',
 			mode: 'home',
-			regions: regions
+			regions: regions//are you using this on home page?
 		});
 	})
 	.catch(next);

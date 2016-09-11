@@ -13,13 +13,11 @@ router.get('/',function(req,res,next){
 		SalesPerson.findAll(),
 		Region.findAll({include: [SalesPerson],order: 'zip ASC'})
 	])
-	.spread(function(people,regions){
-
-		//console.log('regions ',regions);
+	.spread(function(salesPeople, regions){
 		res.render('regions',{
 			title: 'Regions',
 			mode: 'regions',
-			people: people,
+			people: salesPeople,
 			regions: regions
 		});
 	})
@@ -38,11 +36,11 @@ router.post('/',function(req,res,next){
 	
 });
 
-router.delete('/:regionId',function(req,res,next){
+router.delete('/:id',function(req,res,next){
 	//delete sales person by ID and return to page
 	Region.destroy({
 		where:{
-			id: req.params.regionId
+			id: req.params.id
 		}
 	})
 	.then(function(){
